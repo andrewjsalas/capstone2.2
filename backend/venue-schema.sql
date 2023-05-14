@@ -15,7 +15,22 @@ create table posts(
     constraint fk_author
         foreign key(author_id)
             references users(id)
-            on delete set null,
+            on delete set null
+);
+
+create table post_votes(
+    users_id int not null,
+    post_id int not null,
+    vote_value int not null check (-1 <= vote_value and vote_value <= 1),
+    primary key (users_id, post_id),
+    constraint fk_user
+        foreign key(user_id)
+            references users(id)
+            on delete cascade,
+    constraint fk_post 
+        foreign key(post_id)
+            references posts(id)
+            on delete cascade
 );
 
 create table comments(
@@ -26,15 +41,15 @@ create table comments(
     parent_comment_id int,
     created_at timestamptz default now(),
     constraint fk_author
-        foreign_key(author_id)
+        foreign key(author_id)
             references users(id)
             on delete set null,
     constraint fk_post
-        foreign_key(post_id)
+        foreign key(post_id)
             references posts(id)
             on delete set null,
     constraint fk_parent_comment
-        foreign_key(parent_comment_id)
+        foreign key(parent_comment_id)
             references comments(id)
             on delete set null
 );
