@@ -9,6 +9,6 @@ app.use(express.json());
 
 // Routes
 
-express.listen(PORT, function () {
+app.listen(PORT, function () {
     console.log(`Server started on port ${PORT}`);
 })
